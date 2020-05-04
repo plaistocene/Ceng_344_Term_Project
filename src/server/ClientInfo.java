@@ -1,12 +1,12 @@
 package server;
 
-import java.net.InetAddress;;
+import java.net.InetAddress;
 
 public class ClientInfo {
-	private InetAddress address;
-	private int port;
 	private String name;
 	private int ID;
+	private InetAddress address;
+	private int port;
 
 	public ClientInfo(String name, int ID, InetAddress address, int port) {
 		this.address = address;

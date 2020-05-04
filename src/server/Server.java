@@ -25,7 +25,9 @@ public class Server {
 	}
 
 	private static void hollyBroadcast(String message) {
-
+		for(ClientInfo info : clients){
+			send(message, info.getAddress(), info.getPort());
+		}
 	}
 
 	private static void send(String message, InetAddress address, int port) {
@@ -34,7 +36,7 @@ public class Server {
 			byte[] data = message.getBytes();
 			DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
 			socket.send(packet);
-			System.out.println("Sent Message To; " + address.getHostAddress() + ":" + port);
+			System.out.println("Sent Message To:.. " + address.getHostAddress() + ":" + port);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,15 +78,31 @@ public class Server {
 			//Run Connection Code
 			String name = message.substring(message.indexOf(":") + 1);
 			clients.add(new ClientInfo(name, clientID++, packet.getAddress(), packet.getPort()));
-			hollyBroadcast("User; " + name + " Connected!");
+			hollyBroadcast("User: " + name + " Connected!");
 
 			return true;
 		}
+//		else if (message.startsWith("\\dis:")){
+//			String name = message.substring(message.indexOf(":") + 1);
+//			int discID = 0;
+//			int idx = 0;
+//			for(ClientInfo disc : clients){
+//				if (packet.getAddress().equals(disc.getAddress())){
+//					discID = disc.getID();
+//					break;
+//				}
+//				idx++;
+//			}
+//			clients.remove(idx);
+//			hollyBroadcast("User: " + name + " Disconnected!");
+//
+//			return true;
+//		}
 		return false;
 	}
 
 	public static void stopEngine() {
-
+		running = false;
 	}
 }
 
